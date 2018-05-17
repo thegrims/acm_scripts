@@ -1,0 +1,41 @@
+
+# soultionNumber="$(ls ./* | wc -l)"
+# for j in ./solutions/*
+# do
+#   echo $j
+# done
+# DelayedWork/secret/
+
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+GREEN='\033[0;32m'
+
+declare -a inputs=(./solutions/$2/data/secret/*.in)
+declare -a answers=(./solutions/$2/data/secret/*.ans)
+
+case $2 in
+  "DelayedWork")
+    maxTime=4;;
+  "FearFactoring")
+    echo "FearFactoring selected"
+esac
+# get length of an array
+length=${#inputs[@]}
+
+#add timer?
+for ((i=0; i<${length}; i++))
+do
+
+  #timing
+  #echo $(time python $1 < ${inputs[$i]} --sys)
+  SECONDS=0
+  myAnswer=$(python $1 < ${inputs[$i]})
+  elapsedtime=$SECONDS
+  echo $elapsedtime
+  if [ $myAnswer = $(cat ${answers[$i]}) ]
+  then
+    echo -e ${GREEN}success${NC}
+  else
+    echo -e ${RED}fail!${NC}
+  fi
+done
